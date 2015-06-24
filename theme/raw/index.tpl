@@ -47,6 +47,8 @@
         <input type="button" class="remove-filter-button ui-icon ui-state-default ui-icon-circle-close">
     </div>
 
+<!--
+TODO: Remove this autocomplete functionality, or change it to work with something other than the custom "course" tables.
 <div id="filter-course-container">
     <div id="filter-course-wrapper">
             <label for="filter-course" class="fl">Course name or ID</label>
@@ -54,6 +56,7 @@
             <button id="query-button-course" class="add-text-filter-button fl" type="submit" value="course">{str tag="go"}</button>
     </div>
 </div>
+-->
 <div id="active-filters-container">
     <div id="active-filters" class="clearfix"></div>
 </div>
