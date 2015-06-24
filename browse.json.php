@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package    mahara
- * @subpackage artefact-browse
+ * @subpackage module-browse
  * @author     Mike Kelly UAL m.f.kelly@arts.ac.uk / Catalyst IT Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
@@ -28,7 +28,7 @@ define('INTERNAL', 1);
 define('JSON', 1);
 
 require(dirname(dirname(dirname(__FILE__))) . '/init.php');
-safe_require('artefact', 'browse');
+safe_require('module', 'browse');
 
 $limit = param_integer('limit', 20);
 $offset = param_integer('offset', 0);
@@ -47,7 +47,7 @@ if ($course = param_variable('course', '')) {
     $filters['course'] = $course;
 }
 
-$items = ArtefactTypeBrowse::get_browsable_items($filters, $offset, $limit);
-ArtefactTypeBrowse::build_browse_list_html($items);
+$items = PluginModuleBrowse::get_browsable_items($filters, $offset, $limit);
+PluginModuleBrowse::build_browse_list_html($items);
 
 json_reply(false, (object) array('message' => false, 'data' => $items));

@@ -21,7 +21,7 @@
             pd[name] = value;
         });
         loadingmessage.removeClass('hidden');
-        sendjsonrequest(config['wwwroot'] + 'artefact/browse/browse.json.php', pd, 'POST', function(data) {
+        sendjsonrequest(config['wwwroot'] + 'module/browse/browse.json.php', pd, 'POST', function(data) {
             loadingmessage.addClass('hidden');
             $('#gallery').replaceWith(data.data.tablerows);
             $('#browselist_pagination').html(data.data.pagination);
@@ -122,7 +122,7 @@
             minLength: 2,
             source: function(request, response) {
                 pd['term'] = request['term'];
-                sendjsonrequest(config['wwwroot'] + 'artefact/browse/autocomplete.json.php', pd, 'POST', function(data) {
+                sendjsonrequest(config['wwwroot'] + 'module/browse/autocomplete.json.php', pd, 'POST', function(data) {
                     response(data.courses);
                 });
             }
@@ -217,7 +217,7 @@
                     'field' : 'courseid',
                     'term'  : $('#filter-course').val()
                   };
-             sendjsonrequest(config['wwwroot'] + 'artefact/browse/autocomplete.json.php', pd, 'POST', function(data) {
+             sendjsonrequest(config['wwwroot'] + 'module/browse/autocomplete.json.php', pd, 'POST', function(data) {
                 if (!data.courseid.length) {
                     return false;
                 }
@@ -329,7 +329,7 @@
             pd[name] = value;
         });
 
-        sendjsonrequest(config['wwwroot'] + 'artefact/browse/browse.json.php', pd, 'POST', function(data) {
+        sendjsonrequest(config['wwwroot'] + 'module/browse/browse.json.php', pd, 'POST', function(data) {
                 $('#gallery').removeClass('hidden');
                 $('#gallery').replaceWith(data.data.tablerows);
                 if (!$('#browselist_pagination').length) {

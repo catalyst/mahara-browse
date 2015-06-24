@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package    mahara
- * @subpackage artefact-browse
+ * @subpackage module-browse
  * @author     Mike Kelly UAL m.f.kelly@arts.ac.uk / Catalyst
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *

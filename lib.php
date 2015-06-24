@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package    mahara
- * @subpackage artefact-browse
+ * @subpackage module-browse
  * @author     Mike Kelly UAL m.f.kelly@arts.ac.uk / Catalyst IT Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  *
@@ -26,15 +26,7 @@
 defined('INTERNAL') || die();
 require_once('view.php');
 
-class PluginArtefactBrowse extends PluginArtefact {
-
-    public static function get_artefact_types() {
-        return array('browse');
-    }
-
-    public static function get_block_types() {
-        return array();
-    }
+class PluginModuleBrowse extends PluginModule {
 
     public static function get_plugin_name() {
         return 'browse';
@@ -44,41 +36,13 @@ class PluginArtefactBrowse extends PluginArtefact {
         return array(
             'dashboard/browse' => array(
                 'path' => 'dashboard/browse',
-                'url'  => 'artefact/browse',
-                'title' => get_string('browse', 'artefact.browse'),
+                'url'  => 'module/browse',
+                'title' => get_string('browse', 'module.browse'),
                 'weight' => 20,
             ),
         );
     }
-}
 
-function sort_by_mod_date($a, $b) {
-    if ($a->mtime == $b->mtime) {
-        return 0;
-    }
-    return ($a->mtime < $b->mtime) ? 1 : -1;
-}
-
-class ArtefactTypeBrowse extends ArtefactType {
-
-    public function __construct($id = 0, $data = null) {
-        parent::__construct($id, $data);
-    }
-
-    public static function get_links($id) {
-        return array();
-    }
-
-    public function delete() {
-        return;
-    }
-
-    public static function get_icon($options=null) {
-    }
-
-    public static function is_singular() {
-        return true;
-    }
 
     /**
      * This function returns a list of browsable items.
@@ -327,7 +291,7 @@ class ArtefactTypeBrowse extends ArtefactType {
                 $avatarurl = profile_icon_url($publicimageid->owner,50,50);
                 $pagetitle = str_shorten_text($publicimageid->title, $texttitletrim, true);
                 if (strlen(trim($pagetitle)) == 0) {
-                    $pagetitle = get_string('notitle', 'artefact.browse');
+                    $pagetitle = get_string('notitle', 'module.browse');
                 }
                 $contents['photos'][] = array(
                                             "image" => array (
@@ -378,11 +342,11 @@ class ArtefactTypeBrowse extends ArtefactType {
         $smarty = smarty_core();
         $smarty->assign_by_ref('items', $items);
         $smarty->assign('wwwroot', get_config('wwwroot'));
-        $items['tablerows'] = $smarty->fetch('artefact:browse:browselist.tpl'); // the 'tablerows' naming is required for pagination script
+        $items['tablerows'] = $smarty->fetch('module:browse:browselist.tpl'); // the 'tablerows' naming is required for pagination script
         $pagination = build_browse_pagination(array(
             'id' => 'browselist_pagination',
-            'url' => get_config('wwwroot') . 'artefact/browse/index.php',
-            'jsonscript' => 'artefact/browse/browse.json.php',
+            'url' => get_config('wwwroot') . 'module/browse/index.php',
+            'jsonscript' => 'module/browse/browse.json.php',
             'datatable' => 'browselist', // the pagination script expects a table with this id
             'count' => $items['count'],
             'limit' => $items['limit'],
@@ -399,6 +363,14 @@ class ArtefactTypeBrowse extends ArtefactType {
         $items['pagination'] = $pagination['html'];
         $items['pagination_js'] = $pagination['javascript'];
     }
+
+}
+
+function sort_by_mod_date($a, $b) {
+    if ($a->mtime == $b->mtime) {
+        return 0;
+    }
+    return ($a->mtime < $b->mtime) ? 1 : -1;
 }
 
 /**

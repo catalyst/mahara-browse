@@ -20,8 +20,8 @@ Browse requires Mahara 1.6 or later.
 ## Installation
 ---
 
-* Copy the 'browse' folder to your Mahara installation, inside the folder htdocs/artefact.
-* Visit the Site Administration->Extensions->Plugin administration page and install the artefact/browse plugin.
+* Copy the 'browse' folder to your Mahara installation, inside the folder htdocs/module.
+* Visit the Site Administration->Extensions->Plugin administration page and install the module/browse plugin.
 
 **Set up a menu option**.
 
@@ -75,8 +75,8 @@ If you would prefer to have Browse appear under the Content menu, edit the menu_
                 return array(
                     'content/browse' => array (
                     'path' => 'content/browse',
-                    'url'  => 'artefact/browse',
-                    'title' => get_string('browse', 'artefact.browse'),
+                    'url'  => 'module/browse',
+                    'title' => get_string('browse', 'module.browse'),
                     'weight' => 20,
             ),
         );
