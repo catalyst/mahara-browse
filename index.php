@@ -26,6 +26,7 @@
  */
 
 define('INTERNAL', 1);
+define('PUBLIC', 1);
 define('MENUITEM', 'dashboard/browse');
 define('SECTION_PLUGINTYPE', 'module');
 define('SECTION_PLUGINNAME', 'browse');
