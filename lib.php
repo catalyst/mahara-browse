@@ -392,6 +392,7 @@ class ArtefactTypeBrowse extends ArtefactType {
             'nexttext' => '',
             'lasttext' => '',
             'numbersincludefirstlast' => false,
+            // TODO: Fix hard-coded lang string
             'resultcounttextsingular' => 'Item', //get_string('plan', 'artefact.plans'),
             'resultcounttextplural' => 'Items', //get_string('plans', 'artefact.plans'),
         ));

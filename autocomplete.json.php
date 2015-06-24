@@ -29,6 +29,7 @@ define('JSON', 1);
 define('PUBLIC', 1);
 
 require(dirname(dirname(dirname(__FILE__))) . '/init.php');
+// TODO: Check whether this is actually dependent or a typo
 safe_require('artefact', 'browseprofiles');
 $field = param_alpha('field', '');
 $term = param_variable('term', '');
