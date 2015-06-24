@@ -68,7 +68,18 @@ addLoadEvent(function () {
 });
 EOF;
 
-$smarty = smarty(array('module/browse/js/jquery-ui/js/jquery-ui-1.8.19.custom.min.js','module/browse/js/chosen.jquery.js','module/browse/js/browse.js'), array('<link href="' . get_config('wwwroot') . 'module/browse/js/jquery-ui/css/custom-theme/jquery-ui-1.8.20.custom.css" type="text/css" rel="stylesheet">','<link href="' . get_config('wwwroot') . 'module/browse/theme/raw/static/style/chosen.css" type="text/css" rel="stylesheet">'));
+$smarty = smarty(
+    array (
+        'module/browse/js/jquery-ui/js/jquery-ui-1.8.19.custom.min.js',
+        'module/browse/js/chosen.jquery.js',
+        'module/browse/js/browse.js'
+    ),
+    array (
+        '<link href="' . get_config ( 'wwwroot' ) . 'module/browse/js/jquery-ui/css/custom-theme/jquery-ui-1.8.20.custom.css" type="text/css" rel="stylesheet">',
+        '<link href="' . get_config ( 'wwwroot' ) . 'module/browse/theme/raw/static/style/style.css" type="text/css" rel="stylesheet">',
+        '<link href="' . get_config ( 'wwwroot' ) . 'module/browse/theme/raw/static/style/chosen.css" type="text/css" rel="stylesheet">',
+    )
+);
 $smarty->assign_by_ref('items', $items);
 $smarty->assign('PAGEHEADING', hsc(get_string("browse", "module.browse")));
 //$smarty->assign('colleges', $optionscolleges);
