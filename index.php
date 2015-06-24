@@ -31,10 +31,20 @@ define('MENUITEM', 'dashboard/browse');
 define('SECTION_PLUGINTYPE', 'module');
 define('SECTION_PLUGINNAME', 'browse');
 define('SECTION_PAGE', 'index');
-
 require(dirname(dirname(dirname(__FILE__))) . '/init.php');
-safe_require('module', 'browse');
 define('TITLE', get_string('browse','module.browse'));
+safe_require('module', 'browse');
+
+// If they've said to show pages from no institutions, then this page will be empty.
+if (get_config_plugin('module', 'browse', 'insttype') == PluginModuleBrowse::INSTTYPE_NONE) {
+    redirect('/');
+}
+
+// If the page is not accessible to the public, and the user is not logged in, deny access
+if (!get_config_plugin('module', 'browse', 'ispublic') && !$USER->is_logged_in()) {
+    throw new AccessDeniedException();
+}
+
 
 // offset and limit for pagination
 $offset = param_integer('offset', 0);
@@ -51,15 +61,7 @@ if ($college = param_variable('college', '')) {
 if ($course = param_variable('course', '')) {
     $filters['course'] = $course;
 }
-/*
-$colleges = get_records_assoc('mis_college');
-foreach ($colleges as $key => $college ) {
-    if ($college->displaytousers == 1) {
-        // there are some duplicate entries in the table - don't load them
-        $optionscolleges[$key] = $college->abbrev;
-    }
-}
-*/
+
 $items = PluginModuleBrowse::get_browsable_items($filters, $offset, $limit);
 PluginModuleBrowse::build_browse_list_html($items);
 

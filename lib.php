@@ -28,6 +28,10 @@ require_once('view.php');
 
 class PluginModuleBrowse extends PluginModule {
 
+    const INSTTYPE_NONE = 0;
+    const INSTTYPE_ALL = 1;
+    const INSTTYPE_SOME = 2;
+
     public static function get_plugin_name() {
         return 'browse';
     }
@@ -41,6 +45,84 @@ class PluginModuleBrowse extends PluginModule {
                 'weight' => 20,
             ),
         );
+    }
+
+    public static function has_config() {
+        return true;
+    }
+
+
+    /**
+     * Configuration options for this plugin
+     * @return array
+     */
+    public static function get_config_options() {
+        $elements = array();
+        $elements['ispublic'] = array(
+            'type' => 'switchbox',
+            'title' => get_string('ispublictitle', 'module.browse'),
+            'description' => get_string('ispublicdesc', 'module.browse'),
+            'defaultvalue' => get_config_plugin('module', 'browse', 'ispublic'),
+        );
+        $elements['insttype'] = array(
+            'type' => 'select',
+            'title' => get_string('insttypetitle', 'module.browse'),
+            'options' => array(
+                PluginModuleBrowse::INSTTYPE_ALL => get_string('institutionsall', 'module.browse'),
+                PluginModuleBrowse::INSTTYPE_NONE => get_string('institutionsnone', 'module.browse'),
+                PluginModuleBrowse::INSTTYPE_SOME => get_string('institutionssome', 'module.browse'),
+            ),
+            'defaultvalue' => get_config_plugin('module', 'browse', 'insttype'),
+        );
+        $instdata = Institution::count_members(false, true);
+        foreach ($instdata as $k => $v) {
+            $instoptions[$v->name] = $v->displayname;
+        }
+        $elements['instsome'] = array(
+            'type' => 'select',
+            'title' => get_string('instsometitle', 'module.browse'),
+            'defaultvalue' => explode(',', get_config_plugin('module', 'browse', 'instsome')),
+            'options' => $instoptions,
+            'multiple' => true,
+        );
+        return array('elements' => $elements);
+    }
+
+
+    /**
+     * Validate the configuration form for this plugin
+     * @param Pieform $form
+     * @param array $values
+     * @return boolean
+     */
+    public static function validate_config_options(Pieform $form, $values) {
+        $instdata = array_keys(Institution::count_members(false, true));
+        foreach ($values['instsome'] as $inst) {
+            if (!in_array($inst, $instdata, true)) {
+                $form->set_error('instsome', get_string('instsomebadvalue', 'module.browse'));
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * Save the configuration options
+     * @param Pieform $form
+     * @param array $values
+     * @return boolean
+     */
+    public static function save_config_options($form, $values) {
+        set_config_plugin('module', 'browse', 'ispublic', (int) $values['ispublic']);
+        $insttype = (int) $values['insttype'];
+        set_config_plugin('module', 'browse', 'insttype', $insttype);
+        if ($insttype == PluginModuleBrowse::INSTTYPE_SOME) {
+            set_config_plugin('module', 'browse', 'instsome', implode(',', $values['instsome']));
+        } else {
+            set_config_plugin('module', 'browse', 'instsome', '');
+        }
+        return true;
     }
 
 

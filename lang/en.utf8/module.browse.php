@@ -26,6 +26,16 @@
 
 defined('INTERNAL') || die();
 
+$string['allinstitutionstitle'] = 'Show Pages from members of all institutions';
 $string['browse'] = 'Explore Content';
-$string['title'] = 'Title';
+$string['institutionsall'] = 'All institutions';
+$string['institutionsnone'] = 'No institutions';
+$string['institutionssome'] = 'Just these institutions';
+$string['instsomebadvalue'] = 'Invalid institution id';
+$string['instsometitle'] = 'Institutions';
+$string['insttypedescription'] = 'Only show pages from members of these institutions';
+$string['insttypetitle'] = 'Only pages from';
+$string['ispublicdesc'] = 'Make the gallery page visible to logged-out users. They will only be able to see pages that have been shared with the public.';
+$string['ispublictitle'] = 'Show to the public';
 $string['notitle'] = '[No Title]';
+$string['title'] = 'Title';
