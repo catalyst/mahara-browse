@@ -185,6 +185,19 @@ class PluginModuleBrowse extends PluginModule {
 
             switch ($filterkey) {
 
+                case 'institution':
+                    die(var_dump($filterval));
+                    if (count($filterval) == 0) {
+                        // No institutions selected. So don't display any pages.
+                        $andclause .= ' AND 1 = 0 ';
+                    }
+                    else {
+                        $join4clause = ' JOIN {usr_institution} usrinst ON v.owner = usrinst.usr';
+                        $andclause .= ' AND usrinst.institution in (\'' .
+                            implode("','", $filterval) . '\')
+                        ) ';
+                    }
+                    break;
                 case 'keyword':
                     $keywordtype = $filters['keywordtype'];
                     // replace spaces with commas so that we can search on each term separately
@@ -262,80 +275,6 @@ class PluginModuleBrowse extends PluginModule {
                                 }
                                 if ($key == count($keywords)-1) {
                                     $andclause .= ')';
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 'college' :
-                    if (!empty($filterval) && !$onetimeclause) {
-                        $join4clause .= ' JOIN {usr_enrolment} e ON e.usr = v.owner';
-                        $selectclause .= ', e.college, e.course';
-                        $ontimeclause = true;
-                    }
-                    $andclause .= " AND e.college IN ($filterval)";
-                    break;
-                case 'course' :
-                     if (!empty($filterval) && !$onetimeclause) {
-                        $join4clause .= ' JOIN {usr_enrolment} e ON e.usr = v.owner';
-                        $selectclause .= ', e.college, e.course';
-                        $ontimeclause = true;
-                    }
-                    $courseidgroups = explode(";", $filterval);
-                    if (count($courseidgroups) == 1) {
-                        // one course submitted, could have multiple csv ids if selected by name
-                        $courseids = explode(",", $courseidgroups[0]);
-                        if (count($courseids) == 1 ) {
-                            $andclause .= " AND (e.course LIKE '%$courseids[0]%' AND e.usr = v.owner)";
-                        } else if (count($courseids) > 1 ) {
-                            foreach($courseids as $key => $id) {
-                                if ($key == 0) {
-                                    $andclause .= " AND (e.course LIKE '%$id%'";
-                                } else {
-                                    $andclause .= " OR e.course LIKE '%$id%'";
-                                }
-                                if ($key == count($courseids)-1) {
-                                    $andclause .= ')';
-                                }
-                            }
-                        }
-                    } else if (count($courseidgroups) > 1) {
-                        // more than one course submitted
-                        foreach($courseidgroups as $key => $coursegroup) {
-
-                            if ($key == 0) {
-                                $courseids = explode(",", $coursegroup);
-                                if (count($courseids) == 1 ) {
-                                    $andclause .= " AND ((e.course LIKE '%$courseids[0]%')";
-                                } else if (count($courseids) > 1 ) {
-                                    foreach($courseids as $key => $id) {
-                                        if ($key == 0) {
-                                            $andclause .= " AND ((e.course LIKE '%$id%'";
-                                        } else {
-                                            $andclause .= " OR e.course LIKE '%$id%'";
-                                        }
-                                        if ($key == count($courseids)-1) {
-                                            $andclause .= ')';
-                                        }
-                                    }
-                                }
-
-                            } else {
-                                // key != 0
-                                $courseids = explode(",", $coursegroup);
-                                if (count($courseids) == 1 ) {
-                                    $andclause .= " AND (e.course LIKE '%$courseids[0]%')";
-                                } else if (count($courseids) > 1 ) {
-                                    foreach($courseids as $key => $id) {
-                                        if ($key == 0) {
-                                            $andclause .= " AND (e.course LIKE '%$id%'";
-                                        } else {
-                                            $andclause .= " OR e.course LIKE '%$id%'";
-                                        }
-                                        if ($key == count($courseids)-1) {
-                                            $andclause .= ')';
-                                        }
-                                    }
                                 }
                             }
                         }

@@ -55,11 +55,9 @@ $filters = array();
 if ($keyword = param_variable('keyword', '')) {
     $filters['keyword'] = $keyword;
 }
-if ($college = param_variable('college', '')) {
-    $filters['college'] = $college;
-}
-if ($course = param_variable('course', '')) {
-    $filters['course'] = $course;
+
+if (get_config_plugin('module', 'browse', 'insttype') == PluginModuleBrowse::INSTTYPE_SOME) {
+    $filters['institution'] = explode(',', get_config_plugin('module', 'browse', 'intssome'));
 }
 
 $items = PluginModuleBrowse::get_browsable_items($filters, $offset, $limit);
